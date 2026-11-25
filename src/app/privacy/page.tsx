@@ -22,7 +22,7 @@ export const metadata: Metadata = {
  * src/lib/chainIntel.ts, src/app/page.tsx (IP location, storage),
  * src/components/OsirisMap.tsx (base map, satellite), src/app/globals.css
  * (fonts), src/components/LiveAlerts.tsx, src/lib/live-clouds.ts,
- * src/lib/donbot.ts, src/components/oi/assist/voice.ts, the CCTV sources, and
+ * src/components/oi/assist/voice.ts, the CCTV sources, and
  * every localStorage and sessionStorage key in src/.
  */
 
@@ -171,8 +171,8 @@ export default function PrivacyPage() {
                 { name: 'ipapi.co, then freeipapi.com, then ip-api.com', what: 'your connection’s IP address, asked from our server, to place the map' },
                 { name: 'CARTO (basemaps.cartocdn.com)', what: 'the map tiles for the part of the world in view' },
                 { name: 'Esri (server.arcgisonline.com)', what: 'satellite imagery, only when you switch to the satellite view' },
-                { name: 'Wikipedia and Wikidata (en.wikipedia.org, www.wikidata.org)', what: 'what you type in the place search, asked from your browser, only when our own place search server cannot answer. The place under your cursor or that you right-click is named from a list built into OSIRIS, and nothing is sent for it' },
-                { name: 'osirisai.live', what: 'on a copy of OSIRIS that runs no place search server of its own, what you type in the place search, sent from that copy’s server to our place search server' },
+                { name: 'Wikipedia and Wikidata (en.wikipedia.org, www.wikidata.org)', what: 'what you type in the place search, asked from your browser, when this deployment has no geocoder of its own. The place under your cursor or that you right-click is named from a list built into OSIRIS, and nothing is sent for it' },
+                { name: 'A shared place search, only if the operator sets SHARED_SEARCH_URL', what: 'what you type in the place search, sent from this server to that URL. Unset, nothing is sent' },
                 { name: 'Google Fonts', what: 'the typefaces the site uses' },
               ]} />
 
@@ -225,11 +225,10 @@ export default function PrivacyPage() {
               </p>
             </Flow>
 
-            <Flow icon={<Bot className="h-4 w-4" />} title="AI briefings and token scans"
+            <Flow icon={<Bot className="h-4 w-4" />} title="AI briefings"
               summary={<>
                 The briefing, analysis and overview buttons send the feed headlines they summarise to Google Gemini, on this
-                site’s own key. A DonBot token scan opens DigitalDon’s scanner in a sealed frame, which receives the token
-                you scan.
+                site’s own key. With no key set, those buttons stay off.
               </>} />
           </div>
         </Section>

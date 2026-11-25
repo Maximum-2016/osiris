@@ -13,11 +13,9 @@ export const maxDuration = 20;
  * is looking; the browser rounds them (see biasOf) so the edge can share
  * answers.
  *
- * Without OSIRIS_GEOCODER_URL, this route asks the shared search of the
- * deployment that runs osirisai.live (/api/geosearch/shared, through
- * lib/geocoder.ts), so a copy on someone's own machine searches the same
- * geocoder with nothing to set up. SHARED_SEARCH_URL points it elsewhere, or
- * `off` turns it off.
+ * Without OSIRIS_GEOCODER_URL, this route asks SHARED_SEARCH_URL when that
+ * is an http(s) URL (another OSIRIS /api/geosearch/shared). Unset, it asks
+ * nothing, and the browser searches Wikipedia and Wikidata itself.
  *
  * 501 means there is nothing to ask here (no geocoder, and the shared search
  * is off): the browser then searches Wikipedia and Wikidata itself. 503 means

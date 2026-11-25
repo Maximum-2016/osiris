@@ -25,7 +25,8 @@ function model() {
     loaded = (async () => {
       const ort = await import('onnxruntime-web');
       ort.env.wasm.numThreads = 1;
-      const session = await ort.InferenceSession.create(await readFile(join(process.cwd(), MODEL.path)), { graphOptimizationLevel: 'all' });
+      // Literal path so the build traces this file only. Keep it equal to MODEL.path in detect.ts.
+      const session = await ort.InferenceSession.create(await readFile(join(process.cwd(), 'public/vendor/yolox/0.1.1rc0/yolox_nano.onnx')), { graphOptimizationLevel: 'all' });
       return { ort, session };
     })();
     // A failed load is tried again next time rather than remembered.

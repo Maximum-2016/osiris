@@ -164,6 +164,32 @@ Run `npm test` for offline checks or `RUN_LIVE_TESTS=1 npx vitest run src/app/ap
 
 ---
 
+## This fork
+
+This tree is a standalone copy meant to be opened in a browser from a public Vercel URL. The `$OSIRIS` token chart and the DonBot token analyzer are not part of it. Visitor analytics are off unless you set both `UMAMI_URL` and `UMAMI_WEBSITE_ID`. Place search uses Wikipedia, Wikidata and the built-in town list unless you point it at a geocoder you run. Feed requests identify this app and do not forge a residential IP.
+
+### Deploy on Vercel (Hobby)
+
+| Setting | Value |
+|---|---|
+| Framework preset | Next.js |
+| Root directory | `./` (repository root) |
+| Install command | `npm ci` |
+| Build command | `npm run build` |
+| Output | leave empty — Next.js / Vercel default. `output: 'standalone'` is turned off automatically when `VERCEL` is set |
+| Node.js | 22 |
+
+No environment variables are required. The globe, flights, earthquakes, fires, weather, news, satellites (CelesTrak), and the keyless RECON lookups work without one. Optional keys and what they add are listed in [`.env.example`](.env.example). Leave them unset and the matching panel hides itself or answers `not configured` / `503`.
+
+Do not set any secret in the repository. On Vercel, add optional keys under Project → Settings → Environment Variables.
+
+These pieces do not run on Vercel, and the dashboard does not need them:
+
+- `engine/` — the Python prediction loop. This fork has no `.py` sources (upstream shipped bytecode only, and that bytecode is not included). Forecasts in the browser use `src/lib/oi` and a model key the visitor pastes in, which is never stored.
+- `intel/` — a long-running sanctions/Wikidata service. `/api/entity/expand` returns 503 until `INTEL_URL` is set.
+- `deploy.sh`, Docker and the nginx cache — for a machine you run yourself. See [DOCKER.md](DOCKER.md).
+- The separate scanner backend (`SCANNER_URL` / `SCANNER_KEY`). Without it, `/api/scanner` returns 503. Port scan still falls back to the keyless Shodan InternetDB record.
+
 ## Quick Start
 
 ```bash

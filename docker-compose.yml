@@ -24,9 +24,6 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     restart: unless-stopped
-    networks:
-      - default
-      - umami_default
 
   osiris-cache:
     image: nginx:alpine
@@ -59,10 +56,6 @@ services:
 
 volumes:
   nginx-cache:
-
-networks:
-  umami_default:
-    external: true
 
 # ── CasaOS app-store metadata (ignored by plain Docker Compose) ──
 x-casaos:

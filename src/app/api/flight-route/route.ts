@@ -10,7 +10,7 @@
  *   3. airplanes.live                     — hex → detailed AC data (may include route)
  *
  * Rate-limit strategy:
- *   - stealthFetch for ADSBDB/HexDB (rotates UA + residential headers)
+ *   - stealthFetch for ADSBDB/HexDB (identifying User-Agent, no spoofed IP)
  *   - plain fetch for airplanes.live (no auth, generous limits)
  *   - 30-min cache for found routes, 2-min cache for misses
  *   - Per-source cooldown after 429s

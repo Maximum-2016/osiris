@@ -10,12 +10,11 @@ import { httpJson } from '@/lib/httpJson';
  * /api/geosearch and this module. A server of our own has no usage policy for
  * our traffic to outgrow.
  *
- * Without OSIRIS_GEOCODER_URL, a copy asks the shared search of an OSIRIS
- * deployment that runs one — osirisai.live unless SHARED_SEARCH_URL says
- * otherwise — so it gets the same streets and addresses with nothing to set
- * up. When that cannot answer either, the browser searches Wikipedia,
- * Wikidata and the built-in place list instead (lib/geosearch.ts). So the
- * rules are:
+ * Without OSIRIS_GEOCODER_URL, place search stays on this deployment.
+ * SHARED_SEARCH_URL can point at another OSIRIS /api/geosearch/shared; when
+ * it is unset or `off`, nothing is sent to another host. The browser then
+ * searches Wikipedia, Wikidata and the built-in place list (lib/geosearch.ts).
+ * So the rules are:
  *
  *   • The browser never asks the geocoder; only the server does, through this
  *     module, so one cache serves every visitor and the geocoder can stay on
@@ -35,13 +34,12 @@ import { httpJson } from '@/lib/httpJson';
 /** The geocoder's address, e.g. `http://geocoder.internal:2322`; empty turns lookups off. */
 const baseUrl = () => (process.env.OSIRIS_GEOCODER_URL || '').trim().replace(/\/+$/, '');
 
-/** Where a copy without a geocoder searches instead: the deployment that runs osirisai.live. */
-export const DEFAULT_SHARED_SEARCH = 'https://osirisai.live/api/geosearch/shared';
-
-/** The shared search to ask; empty when SHARED_SEARCH_URL is `off`. Unset or blank means the default. */
+/** The shared search to ask. Empty unless SHARED_SEARCH_URL is an http(s) URL. */
 const sharedUrl = () => {
-  const set = (process.env.SHARED_SEARCH_URL || '').trim();
-  return set.toLowerCase() === 'off' ? '' : set || DEFAULT_SHARED_SEARCH;
+  const set = (process.env.SHARED_SEARCH_URL || '').trim().replace(/\/+$/, '');
+  if (!set || set.toLowerCase() === 'off') return '';
+  if (!/^https?:\/\//i.test(set)) return '';
+  return set;
 };
 
 /** Places do not move. */
@@ -82,7 +80,7 @@ function ensureLoaded(): Promise<void> {
   loaded ??= (async () => {
     if (process.env.OSIRIS_GEOCODER_CACHE === 'off') return;
     try {
-      const raw = await fs.readFile(snapshotPath(), 'utf8');
+      const raw = await fs.readFile(/*turbopackIgnore: true*/ snapshotPath(), 'utf8');
       const saved = JSON.parse(raw) as Record<string, Entry>;
       const now = Date.now();
       for (const [key, entry] of Object.entries(saved)) {
@@ -111,10 +109,10 @@ function scheduleSave() {
 async function save(): Promise<void> {
   const path = snapshotPath();
   try {
-    await fs.mkdir(dirname(path), { recursive: true });
+    await fs.mkdir(/*turbopackIgnore: true*/ dirname(path), { recursive: true });
     const temporary = `${path}.${process.pid}.tmp`;
-    await fs.writeFile(temporary, JSON.stringify(Object.fromEntries(cache)), 'utf8');
-    await fs.rename(temporary, path);
+    await fs.writeFile(/*turbopackIgnore: true*/ temporary, JSON.stringify(Object.fromEntries(cache)), 'utf8');
+    await fs.rename(/*turbopackIgnore: true*/ temporary, path);
   } catch (error) {
     console.warn('[OSIRIS] Could not save the place cache:', error);
   }
@@ -180,7 +178,7 @@ export async function sharedSearch<T>(params: Record<string, string>): Promise<T
   return ask<T>(`${base}?${query}`, `shared:${keyOf(query)}`);
 }
 
-/** Whether a copy with no geocoder of its own asks the shared search (on unless SHARED_SEARCH_URL is `off`). */
+/** Whether a copy with no geocoder of its own asks a shared search the operator configured. */
 export function sharedSearchConfigured(): boolean {
   return sharedUrl() !== '';
 }

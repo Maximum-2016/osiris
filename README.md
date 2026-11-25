@@ -190,6 +190,35 @@ These pieces do not run on Vercel, and the dashboard does not need them:
 - `deploy.sh`, Docker and the nginx cache — for a machine you run yourself. See [DOCKER.md](DOCKER.md).
 - The separate scanner backend (`SCANNER_URL` / `SCANNER_KEY`). Without it, `/api/scanner` returns 503. Port scan still falls back to the keyless Shodan InternetDB record.
 
+## Public layers
+
+The layer panel group **PUBLIC DATA** adds free feeds. Each one is off until it is switched on, and a feed that does not answer leaves the rest of the map up.
+
+| Layer | What it shows | License |
+|---|---|---|
+| NASA true color, night lights, aerosol, snow | GIBS imagery for the date on the slider. Aerosol is the smoke-and-dust product; GIBS has no layer named Smoke. | NASA public domain |
+| HMS smoke | NOAA daily smoke polygons from the HMS KML | Public domain |
+| US drought | US Drought Monitor weekly polygons | Attribute NDMC / USDM |
+| Internet speed | Ookla fixed-broadband tiles for 2025 Q3, averaged into 2° cells (`public/data/ookla-fixed-2deg.json`, about 190 KB). A full zoom-16 heatmap is a 365 MB file and is not bundled. | CC BY 4.0, Speedtest by Ookla |
+| Active storms | NOAA NHC cones, tracks and warnings as GeoJSON | Public domain |
+| Rocket launches | Upcoming Launch Library 2 launches, cached 2 hours | Free API, attribute The Space Devs |
+| PeeringDB | Facilities and IXPs, cached a day | Attribute PeeringDB |
+| Censorship | OONI anomaly rate by country, plus incident pins | CC BY-SA 4.0 |
+| HDX HAPI | Refugees, food security and conflict events. HDX currently rejects an unregistered `app_identifier`, so the layer stays empty until `HAPI_APP_IDENTIFIER` is one they accept | CC BY-IGO |
+| Travel advice | US State advisory level, and UK FCDO where the search text says travel is advised against | US public domain; UK Open Government Licence |
+| WHO outbreaks | Disease Outbreak News, pinned on the country named in the title | Attribute WHO |
+| IPC food phases | FEWS NET phase by country. The public `ipcphase` list is so large that a request often times out; the toggle then shows that error | Attribute FEWS NET |
+| Port activity | IMF PortWatch public ArcGIS ports | Attribute IMF PortWatch |
+| UFO sightings | Wikidata items that are an instance or subclass of UFO sighting (Q40728071) with coordinates (P625). Name, date and Wikipedia link. | CC0 |
+| Ransom totals | RansomLook recent posts, counted by country. Victim names are not shown. | RansomLook public API |
+| OSM military, airports, nuclear, ports | Overpass for the current view, converted with osmtogeojson (MIT) | ODbL |
+| FAA TFRs | The public TFR list. FAA's list endpoint does not include shapes, and the shape URLs tried here 404, so the layer reports that instead of drawing a guess | Public domain |
+| ShakeMap | USGS MMI contours for magnitude 5+ events already on the quake layer | Public domain |
+| Aircraft of interest | plane-alert-db (ODbL, used as published) tags live flights by ICAO hex | ODbL |
+| Fishing effort and AIS gaps | Global Fishing Watch. Hidden unless `GFW_API_TOKEN` is set | GFW API terms |
+
+Open Infrastructure Map is not a layer. Its copyright page licenses OpenStreetMap data (ODbL) and the map's own design (CC BY). It does not offer the Tegola tile server for other sites to call. Power, telecom and pipeline geometry for a small view is available through the OSM place layers instead.
+
 ## Quick Start
 
 ```bash

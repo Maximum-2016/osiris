@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Plane, Satellite, Sun, AlertTriangle, Camera,
   CloudLightning, CloudSun, Ship, Network, Database, Ghost,
-  Flame, Tv, Radio, Mountain, Anchor, Megaphone, SlidersHorizontal, Bus
+  Flame, Tv, Radio, Mountain, Anchor, Megaphone, SlidersHorizontal, Bus, Globe2
 } from 'lucide-react';
 import StyleStudio from './StyleStudio';
 import { TERRAIN_MIN_ZOOM, type TerrainStatus } from '@/lib/map-terrain';
@@ -153,6 +153,40 @@ const LAYER_GROUPS: LayerGroupDef[] = [
     layers: [
       { key: 'cf_outages', label: 'Internet Outages', dataKey: 'cf_outages', requires: 'cloudflare' },
       { key: 'cf_attacks', label: 'Attack Origins', dataKey: 'cf_attack_origins', requires: 'cloudflare' },
+    ],
+  },
+  {
+    label: 'PUBLIC',
+    fullLabel: 'PUBLIC DATA',
+    icon: Globe2,
+    layers: [
+      { key: 'gibs_true', label: 'NASA True Color', description: 'MODIS Terra · public domain', dataKey: '' },
+      { key: 'gibs_night', label: 'NASA Night Lights', description: 'VIIRS day/night band · public domain', dataKey: '' },
+      { key: 'gibs_smoke', label: 'NASA Aerosol', description: 'MODIS smoke and dust · public domain', dataKey: '' },
+      { key: 'gibs_snow', label: 'NASA Snow', description: 'MODIS snow cover · public domain', dataKey: '' },
+      { key: 'hms', label: 'HMS Smoke', description: 'NOAA daily smoke polygons · public domain', dataKey: '' },
+      { key: 'drought', label: 'US Drought', description: 'US Drought Monitor · weekly', dataKey: '' },
+      { key: 'ookla', label: 'Internet Speed', description: 'Ookla open data · 2° grid · CC BY', dataKey: '' },
+      { key: 'nhc', label: 'Active Storms', description: 'NOAA NHC cones and tracks', dataKey: '' },
+      { key: 'launches', label: 'Rocket Launches', description: 'Launch Library 2 · cached 2 hours', dataKey: '' },
+      { key: 'peeringdb', label: 'PeeringDB', description: 'IXPs and facilities · daily cache', dataKey: '' },
+      { key: 'ooni', label: 'Censorship', description: 'OONI by country · CC BY-SA', dataKey: '' },
+      { key: 'hapi', label: 'HDX HAPI', description: 'Refugees, food security, conflict', dataKey: '' },
+      { key: 'advisories', label: 'Travel Advice', description: 'US State and UK FCDO', dataKey: '' },
+      { key: 'who_don', label: 'WHO Outbreaks', description: 'Disease Outbreak News', dataKey: '' },
+      { key: 'fews', label: 'IPC Food Phases', description: 'FEWS NET', dataKey: '' },
+      { key: 'portwatch', label: 'Port Activity', description: 'IMF PortWatch', dataKey: '' },
+      { key: 'ufo', label: 'UFO Sightings', description: 'Wikidata Q40728071 · CC0', dataKey: '' },
+      { key: 'ransomlook', label: 'Ransom Totals', description: 'RansomLook · country counts only', dataKey: '' },
+      { key: 'overpass_military', label: 'OSM Military', description: 'Overpass · current view · ODbL', dataKey: '' },
+      { key: 'overpass_airports', label: 'OSM Airports', description: 'Overpass · current view · ODbL', dataKey: '' },
+      { key: 'overpass_nuclear', label: 'OSM Nuclear', description: 'Overpass · current view · ODbL', dataKey: '' },
+      { key: 'overpass_ports', label: 'OSM Ports', description: 'Overpass · current view · ODbL', dataKey: '' },
+      { key: 'tfr', label: 'FAA TFRs', description: 'US temporary flight restrictions', dataKey: '' },
+      { key: 'shakemap', label: 'ShakeMap', description: 'USGS contours for M5+ quakes', dataKey: '' },
+      { key: 'plane_alert', label: 'Aircraft of Interest', description: 'plane-alert-db · ODbL · tags live flights', dataKey: '' },
+      { key: 'gfw_fishing', label: 'Fishing Effort', description: 'Global Fishing Watch', dataKey: '', requires: 'gfw' },
+      { key: 'gfw_gaps', label: 'AIS Gaps', description: 'Global Fishing Watch', dataKey: '', requires: 'gfw' },
     ],
   },
   {

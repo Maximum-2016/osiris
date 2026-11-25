@@ -5,9 +5,9 @@
  * list's matches the moment a key is pressed, then ask one of two online
  * sources and merge what it finds in front of them:
  *
- *   • the OSIRIS geocoder, through /api/geosearch and lib/geocoder.ts: the
- *     deployment's own (OSIRIS_GEOCODER_URL) or, for a copy that runs none,
- *     the one osirisai.live shares. It searches OpenStreetMap data, with
+ *   • the OSIRIS geocoder, through /api/geosearch and lib/geocoder.ts, when
+ *     this deployment runs one (OSIRIS_GEOCODER_URL) or the operator points
+ *     SHARED_SEARCH_URL at another copy. It searches OpenStreetMap data, with
  *     streets and addresses, biased toward where the map is looking;
  *   • when that cannot answer, Wikipedia and Wikidata, asked straight from the browser with
  *     no key. Wikipedia is typo tolerant and ranked by how much each place is

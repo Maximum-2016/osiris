@@ -57,7 +57,7 @@ describe('isPublicIp', () => {
   });
 
   it('rejects loopback, private, CGNAT and reserved IPv6', () => {
-    for (const ip of ['127.0.0.1', '10.1.2.3', '192.168.1.5', '100.89.48.10', '::1', 'fd00::1', 'fe80::1', '']) {
+    for (const ip of ['127.0.0.1', '10.1.2.3', '192.168.1.5', '100.64.1.1', '::1', 'fd00::1', 'fe80::1', '']) {
       expect(isPublicIp(ip)).toBe(false);
     }
   });

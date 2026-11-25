@@ -46,7 +46,6 @@ import { pickLandingCity } from '@/lib/landing-cities';
 import { placeAt, searchPlaces } from '@/lib/geosearch';
 import { diffSweep, appendEvents, type WatchBaseline, type WatchEvent } from '@/lib/watch';
 import { STORAGE_KEY, serializeShapes, deserializeShapes, shapesToGeoJSON, downloadFile } from '@/lib/aoi-export';
-const TokenPanel = dynamic(() => import('@/components/TokenPanel'));
 import SupportMenu from '@/components/SupportMenu';
 import { useOi } from '@/lib/oi/client';
 import { useAssist } from '@/lib/oi/assist/client';
@@ -1855,8 +1854,6 @@ export default function Dashboard() {
         {spaceWeather && <span className="hidden lg:inline" title={spaceWeather.kp_index == null ? 'Geomagnetic Storm Index — no reading from NOAA' : `Geomagnetic Storm Index — Kp${spaceWeather.kp_index}`}>SOLAR: <span style={{ color: spaceWeather.storm_color, fontWeight: 700 }}>{spaceWeather.kp_index == null ? 'N/A' : `Kp${spaceWeather.kp_index}`}</span></span>}
 
         <span className="text-[11px] font-bold tracking-[0.2em] text-[var(--text-muted)] opacity-50">{APP_VERSION}</span>
-        
-        <TokenPanel />
 
         <SupportMenu />
       </motion.div>
@@ -1867,7 +1864,6 @@ export default function Dashboard() {
       {isMobile && !showDirections && !navSession && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: revealed ? 1 : 0 }} transition={hudIn(0.35)} className="absolute top-3 right-3 z-[200] pointer-events-auto flex flex-col items-end gap-1.5">
           <div className="flex items-center gap-2">
-            <TokenPanel />
             <SupportMenu compact />
           </div>
         </motion.div>

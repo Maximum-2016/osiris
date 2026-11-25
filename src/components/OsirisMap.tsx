@@ -20,6 +20,7 @@ import SatelliteCard, { type SatelliteDetail } from '@/components/SatelliteCard'
 import CctvPreviews, { type PreviewCamera } from '@/components/CctvPreviews';
 import MapControls from '@/components/MapControls';
 import WindBar from '@/components/WindBar';
+import PublicLayers from '@/components/PublicLayers';
 import RainBar from '@/components/RainBar';
 import { DOCK } from '@/components/TimeBox';
 import LiveNewsPreviews, { type PreviewFeed } from '@/components/LiveNewsPreviews';
@@ -3504,6 +3505,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       )}
       {selectedSat && <SatelliteCard sat={selectedSat} onClose={clearSat} />}
       {mapReady && <MapControls mapRef={mapRef} onInteract={onFollowInterrupt} />}
+      {mapReady && <PublicLayers mapRef={mapRef} activeLayers={activeLayers} mapStyle={mapStyle} data={data} />}
       {mapReady && (activeLayers.wind || activeLayers.rain) && (
         <div className={DOCK}>
           {activeLayers.wind && <WindBar mapRef={mapRef} controls={!!activeLayers.wind_controls} particles={!!activeLayers.wind_particles} onOff={() => onLayerOff?.('wind')} />}

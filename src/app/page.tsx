@@ -551,6 +551,33 @@ export default function Dashboard() {
     gdelt_events: false,
     cf_outages: false,
     cf_attacks: false,
+    gibs_true: false,
+    gibs_night: false,
+    gibs_smoke: false,
+    gibs_snow: false,
+    hms: false,
+    drought: false,
+    ookla: false,
+    nhc: false,
+    launches: false,
+    peeringdb: false,
+    ooni: false,
+    hapi: false,
+    advisories: false,
+    who_don: false,
+    fews: false,
+    portwatch: false,
+    ufo: false,
+    ransomlook: false,
+    overpass_military: false,
+    overpass_airports: false,
+    overpass_nuclear: false,
+    overpass_ports: false,
+    tfr: false,
+    shakemap: false,
+    plane_alert: false,
+    gfw_fishing: false,
+    gfw_gaps: false,
   });
   // ── OI ASSIST ── the conversation, and the page it works: the camera, the
   // layers, the panels, the live data, and what it marks on the map. It lives
@@ -756,6 +783,10 @@ export default function Dashboard() {
       .then(r => (r.ok ? r.json() : null))
       .then(p => { if (p) setCapabilities(c => ({ ...c, cloudflare: !!p.configured })); })
       .catch(() => { /* leave the layer hidden */ });
+    fetch('/api/open/gfw?probe=1')
+      .then(r => (r.ok ? r.json() : null))
+      .then(p => { if (p) setCapabilities(c => ({ ...c, gfw: !!p.configured })); })
+      .catch(() => { /* fishing and AIS-gap toggles stay hidden */ });
 
     // Once the user interacts, a late IP-location response must not steal the
     // camera back. The request is also cancelled when this page unmounts.
@@ -1108,7 +1139,7 @@ export default function Dashboard() {
   useEffect(() => {
 
     // Flights
-    if (activeLayers.flights || activeLayers.military || activeLayers.jets || activeLayers.private) {
+    if (activeLayers.flights || activeLayers.military || activeLayers.jets || activeLayers.private || activeLayers.plane_alert) {
       if (!layerFetchedRef.current.has('flights')) {
         fetchEndpoint('/api/flights');
         layerFetchedRef.current.add('flights');
@@ -1233,7 +1264,7 @@ export default function Dashboard() {
   useEffect(() => {
     const intervals: ReturnType<typeof setInterval>[] = [];
     const stopFns: (() => void)[] = [];
-    if (activeLayers.flights || activeLayers.military || activeLayers.jets || activeLayers.private) {
+    if (activeLayers.flights || activeLayers.military || activeLayers.jets || activeLayers.private || activeLayers.plane_alert) {
       intervals.push(setInterval(() => fetchEndpoint('/api/flights'), 300000)); // 5 min (was 2 min)
     }
 
